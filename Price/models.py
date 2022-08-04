@@ -1,0 +1,16 @@
+from django.db import models
+
+# Create your models here.
+
+
+class Data(models.Model):
+
+    price = models.TextField(blank=True , null=True) 
+    date = models.PositiveIntegerField(blank=True , null=True)
+
+    
+    def __str__(self):
+        return self.price
+
+
+
