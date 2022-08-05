@@ -14,7 +14,8 @@ hist= hist.reset_index()
 
 x =hist[['index','Close']].values
 
-for i in x:
 
-    for m in i:
-        print(m)
+for i , m in x:
+
+    print (i , m)
+

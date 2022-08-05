@@ -1,7 +1,8 @@
 from django.urls import path , include
-from .views import fcreate
+from .views import ChartCreate , fcreate
 
 urlpatterns = [
     
-    path('',fcreate , name ='priceshow'),
+    path('',ChartCreate.as_view() , name ='priceshow'),
+    path('display',fcreate , name ='display'),
 ]

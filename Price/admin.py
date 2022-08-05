@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Data
+from .models import Ticker , Data
 
 
 
-@admin.register(Data)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'price', 'date',)
+admin.register(Ticker, Data)(admin.ModelAdmin)

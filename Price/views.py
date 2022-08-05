@@ -7,38 +7,47 @@ from django.http import HttpResponse
 import yfinance as yf
 import json
 import requests
-from .models import Data
+from .models import Data , Ticker
 from django.views import generic
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-
-    
 import yfinance as yf
 import json
+from django.views import generic
+from .forms import DataCreateForm
+from django.urls import reverse_lazy
 
+
+
+
+
+class ChartCreate(generic.CreateView):
+
+    form_class = DataCreateForm
+#    fields= '__all__'
+    template_name = 'chartcreate.html'
+    success_url = reverse_lazy('display')
+    
 
 
 def fcreate(request):
     
-    msft = yf.Ticker("MSFT")
+    obj = Ticker.objects.last()
+    
+    msft = yf.Ticker(obj.ticker)
     hist = msft.history(period = "1mo", interval = "1d")
     hist=hist.reset_index()
     hist = hist.reset_index()
 
-    x= hist['index'].values
-    y=hist['Close'].values
-    n=0
-    for i in y:
-        Data.objects.create(id= n , price= i)
-        n = n+1
+    x= hist[['index' , 'Close']].values
     
     n=0
 
-    for i in x:
-        obj = Data.objects.get(pk=n)
-        obj.date = i
-        obj.save()
-        n=n+1
+    for i , ii in x:
+
+        valu = Data.objects.create(ticker = obj.ticker , price = ii , date = i )
+
+        
 
     return render(request , 'home.html')
 
