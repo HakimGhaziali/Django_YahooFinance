@@ -31,6 +31,10 @@ class ChartCreate(generic.CreateView):
 
 
 def fcreate(request):
+    'this function import data from Yfinance'
+
+    entries= Data.objects.all()
+    entries.delete()
     
     obj = Ticker.objects.last()
     
@@ -38,17 +42,12 @@ def fcreate(request):
     hist = msft.history(period = "1mo", interval = "1d")
     hist=hist.reset_index()
     hist = hist.reset_index()
-
     x= hist[['index' , 'Close']].values
-    
-    n=0
 
     for i , ii in x:
 
         valu = Data.objects.create(ticker = obj.ticker , price = ii , date = i )
 
-        
-
-    return render(request , 'home.html')
+    return render(request , 'home.html' , { 'Data': Data.objects.all()  })
 
         

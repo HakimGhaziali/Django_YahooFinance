@@ -20,6 +20,6 @@ class Data(models.Model):
 
     def __str__(self):
         
-            return "%s %s" % (self.price , self.date)  
+            return "%s %s %s" % (self.price , self.date , self.ticker)  
 
     
