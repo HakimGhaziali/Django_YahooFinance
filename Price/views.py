@@ -20,7 +20,6 @@ from django.urls import reverse_lazy
 
 
 
-
 class ChartCreate(generic.CreateView):
 
     form_class = DataCreateForm
@@ -31,10 +30,11 @@ class ChartCreate(generic.CreateView):
 
 
 def fcreate(request):
+
     'this function import data from Yfinance'
 
-    entries= Data.objects.all()
-    entries.delete()
+    #entries= Data.objects.all()
+    #entries.delete()
     
     obj = Ticker.objects.last()
     
@@ -44,10 +44,13 @@ def fcreate(request):
     hist = hist.reset_index()
     x= hist[['index' , 'Close']].values
 
+    print(obj.id)
+
     for i , ii in x:
 
-        valu = Data.objects.create(ticker = obj.ticker , price = ii , date = i )
+        x =Data(price = ii , date = i , name_id = obj.id )
+        x.save()
 
-    return render(request , 'home.html' , { 'Data': Data.objects.all()  })
+    return render(request , 'home.html' , { 'Data': Data.objects.filter(name_id = obj.id )  })
 
         

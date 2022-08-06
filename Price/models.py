@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Ticker(models.Model):
-
+    
     ticker= models.CharField(max_length=50)
 
 
@@ -12,14 +12,14 @@ class Ticker(models.Model):
         return self.ticker
 
 class Data(models.Model):
-
-    ticker = models.CharField(max_length=50)
-    price = models.PositiveIntegerField(blank=True , null=True)
-    date = models.PositiveIntegerField( blank=True , null=True )
+    
+    name= models.ForeignKey(Ticker , on_delete=models.CASCADE , related_name='named')
+    price = models.DecimalField( max_digits=5, decimal_places=2)
+    date = models.IntegerField( blank=True , null=True )
 
 
     def __str__(self):
         
-            return "%s %s %s" % (self.price , self.date , self.ticker)  
+            return "%s %s %s" % (self.price , self.date , self.name_id)  
 
     
